@@ -14,43 +14,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/**
- * Model for the main trip itinerary.
- * This will be managed (CRUD) via the Admin Dashboard.
- */
-model TripPlace {
-  id        String   @id @default(cuid())
-  
-  // Day of the trip (used for filtering the map view on days 1, 2, 3, or 4)
-  day       Int      @default(1)
-  
-  // Details of the location
-  name      String
-  purpose   String   // e.g., "Dinner reservation", "Sightseeing", "Shopping"
-  notes     String?  // Optional additional details or directions
-  
-  // Coordinates for mapping and Google Maps integration
-  latitude  Float    // The North/South coordinate for the pin
-  longitude Float    // The East/West coordinate for the pin
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  @@index([day]) // Indexing by day makes filtering very fast
+enum SuggestionStatus {
+Pending
+Approved
+Rejected
 }
 
-/**
- * Model for user suggestions (the 'Inbox' viewable by the Admin).
- */
+model TripPlace {
+id          String    @id @default(cuid())
+
+day         Int       @default(1)
+time        String    // Time slot for the activity (e.g., "10:00 AM", "Evening")
+
+name        String
+purpose     String
+notes       String?
+
+latitude    Float
+longitude   Float
+
+createdAt   DateTime  @default(now())
+updatedAt   DateTime  @updatedAt
+
+@@index([day])
+@@map("trip_places")
+}
+
 model Suggestion {
-  id          String   @id @default(cuid())
-  
-  // The suggestion content
-  text        String
-  
-  // Admin-only flag to track if the suggestion has been seen/processed
-  isReviewed  Boolean  @default(false)
-  
-  // Timestamp of when the suggestion was submitted
-  createdAt   DateTime @default(now())
+id          String           @id @default(cuid())
+
+userId      String           // Identifier from the authentication system
+title       String           // Title/Name of the suggested location
+text        String
+
+status      SuggestionStatus @default(Pending)
+
+createdAt   DateTime         @default(now())
+updatedAt   DateTime         @updatedAt
+
+@@index([status])
+@@map("suggestions")
 }

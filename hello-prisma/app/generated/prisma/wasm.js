@@ -95,6 +95,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.TripPlaceScalarFieldEnum = {
   id: 'id',
   day: 'day',
+  time: 'time',
   name: 'name',
   purpose: 'purpose',
   notes: 'notes',
@@ -106,9 +107,12 @@ exports.Prisma.TripPlaceScalarFieldEnum = {
 
 exports.Prisma.SuggestionScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  title: 'title',
   text: 'text',
-  isReviewed: 'isReviewed',
-  createdAt: 'createdAt'
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -125,7 +129,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.SuggestionStatus = exports.$Enums.SuggestionStatus = {
+  Pending: 'Pending',
+  Approved: 'Approved',
+  Rejected: 'Rejected'
+};
 
 exports.Prisma.ModelName = {
   TripPlace: 'TripPlace',
@@ -160,7 +168,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../../../prisma",
@@ -178,13 +186,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\n/**\n * Model for the main trip itinerary.\n * This will be managed (CRUD) via the Admin Dashboard.\n */\nmodel TripPlace {\n  id String @id @default(cuid())\n\n  // Day of the trip (used for filtering the map view on days 1, 2, 3, or 4)\n  day Int @default(1)\n\n  // Details of the location\n  name    String\n  purpose String // e.g., \"Dinner reservation\", \"Sightseeing\", \"Shopping\"\n  notes   String? // Optional additional details or directions\n\n  // Coordinates for mapping and Google Maps integration\n  latitude  Float // The North/South coordinate for the pin\n  longitude Float // The East/West coordinate for the pin\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([day]) // Indexing by day makes filtering very fast\n}\n\n/**\n * Model for user suggestions (the 'Inbox' viewable by the Admin).\n */\nmodel Suggestion {\n  id String @id @default(cuid())\n\n  // The suggestion content\n  text String\n\n  // Admin-only flag to track if the suggestion has been seen/processed\n  isReviewed Boolean @default(false)\n\n  // Timestamp of when the suggestion was submitted\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "586276c5ba54d0c4d3d2bdf4a7ca4bc878a6e73c808de6692e7dfbe3993be82c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum SuggestionStatus {\n  Pending\n  Approved\n  Rejected\n}\n\nmodel TripPlace {\n  id String @id @default(cuid())\n\n  day  Int    @default(1)\n  time String // Time slot for the activity (e.g., \"10:00 AM\", \"Evening\")\n\n  name    String\n  purpose String\n  notes   String?\n\n  latitude  Float\n  longitude Float\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([day])\n  @@map(\"trip_places\")\n}\n\nmodel Suggestion {\n  id String @id @default(cuid())\n\n  userId String // Identifier from the authentication system\n  title  String // Title/Name of the suggested location\n  text   String\n\n  status SuggestionStatus @default(Pending)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([status])\n  @@map(\"suggestions\")\n}\n",
+  "inlineSchemaHash": "2f81af625878810dd93308213d272150fb424a6b3f15c98ceadfce38a3b2ccdc",
   "copyEngine": false
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"TripPlace\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"day\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"purpose\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"Suggestion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isReviewed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"TripPlace\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"day\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"time\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"purpose\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"notes\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"latitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"longitude\",\"kind\":\"scalar\",\"type\":\"Float\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"trip_places\"},\"Suggestion\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"text\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"SuggestionStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"suggestions\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = undefined
 config.compilerWasm = undefined

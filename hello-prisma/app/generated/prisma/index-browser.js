@@ -123,6 +123,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 exports.Prisma.TripPlaceScalarFieldEnum = {
   id: 'id',
   day: 'day',
+  time: 'time',
   name: 'name',
   purpose: 'purpose',
   notes: 'notes',
@@ -134,9 +135,12 @@ exports.Prisma.TripPlaceScalarFieldEnum = {
 
 exports.Prisma.SuggestionScalarFieldEnum = {
   id: 'id',
+  userId: 'userId',
+  title: 'title',
   text: 'text',
-  isReviewed: 'isReviewed',
-  createdAt: 'createdAt'
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -153,7 +157,11 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.SuggestionStatus = exports.$Enums.SuggestionStatus = {
+  Pending: 'Pending',
+  Approved: 'Approved',
+  Rejected: 'Rejected'
+};
 
 exports.Prisma.ModelName = {
   TripPlace: 'TripPlace',

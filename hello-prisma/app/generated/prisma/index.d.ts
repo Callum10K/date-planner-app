@@ -15,17 +15,32 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 /**
  * Model TripPlace
- * *
- *  * Model for the main trip itinerary.
- *  * This will be managed (CRUD) via the Admin Dashboard.
+ * 
  */
 export type TripPlace = $Result.DefaultSelection<Prisma.$TripPlacePayload>
 /**
  * Model Suggestion
- * *
- *  * Model for user suggestions (the 'Inbox' viewable by the Admin).
+ * 
  */
 export type Suggestion = $Result.DefaultSelection<Prisma.$SuggestionPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const SuggestionStatus: {
+  Pending: 'Pending',
+  Approved: 'Approved',
+  Rejected: 'Rejected'
+};
+
+export type SuggestionStatus = (typeof SuggestionStatus)[keyof typeof SuggestionStatus]
+
+}
+
+export type SuggestionStatus = $Enums.SuggestionStatus
+
+export const SuggestionStatus: typeof $Enums.SuggestionStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -981,6 +996,7 @@ export namespace Prisma {
   export type TripPlaceMinAggregateOutputType = {
     id: string | null
     day: number | null
+    time: string | null
     name: string | null
     purpose: string | null
     notes: string | null
@@ -993,6 +1009,7 @@ export namespace Prisma {
   export type TripPlaceMaxAggregateOutputType = {
     id: string | null
     day: number | null
+    time: string | null
     name: string | null
     purpose: string | null
     notes: string | null
@@ -1005,6 +1022,7 @@ export namespace Prisma {
   export type TripPlaceCountAggregateOutputType = {
     id: number
     day: number
+    time: number
     name: number
     purpose: number
     notes: number
@@ -1031,6 +1049,7 @@ export namespace Prisma {
   export type TripPlaceMinAggregateInputType = {
     id?: true
     day?: true
+    time?: true
     name?: true
     purpose?: true
     notes?: true
@@ -1043,6 +1062,7 @@ export namespace Prisma {
   export type TripPlaceMaxAggregateInputType = {
     id?: true
     day?: true
+    time?: true
     name?: true
     purpose?: true
     notes?: true
@@ -1055,6 +1075,7 @@ export namespace Prisma {
   export type TripPlaceCountAggregateInputType = {
     id?: true
     day?: true
+    time?: true
     name?: true
     purpose?: true
     notes?: true
@@ -1154,6 +1175,7 @@ export namespace Prisma {
   export type TripPlaceGroupByOutputType = {
     id: string
     day: number
+    time: string
     name: string
     purpose: string
     notes: string | null
@@ -1185,6 +1207,7 @@ export namespace Prisma {
   export type TripPlaceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     day?: boolean
+    time?: boolean
     name?: boolean
     purpose?: boolean
     notes?: boolean
@@ -1197,6 +1220,7 @@ export namespace Prisma {
   export type TripPlaceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     day?: boolean
+    time?: boolean
     name?: boolean
     purpose?: boolean
     notes?: boolean
@@ -1209,6 +1233,7 @@ export namespace Prisma {
   export type TripPlaceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     day?: boolean
+    time?: boolean
     name?: boolean
     purpose?: boolean
     notes?: boolean
@@ -1221,6 +1246,7 @@ export namespace Prisma {
   export type TripPlaceSelectScalar = {
     id?: boolean
     day?: boolean
+    time?: boolean
     name?: boolean
     purpose?: boolean
     notes?: boolean
@@ -1230,7 +1256,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TripPlaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "name" | "purpose" | "notes" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["tripPlace"]>
+  export type TripPlaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "day" | "time" | "name" | "purpose" | "notes" | "latitude" | "longitude" | "createdAt" | "updatedAt", ExtArgs["result"]["tripPlace"]>
 
   export type $TripPlacePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "TripPlace"
@@ -1238,6 +1264,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       day: number
+      time: string
       name: string
       purpose: string
       notes: string | null
@@ -1670,6 +1697,7 @@ export namespace Prisma {
   interface TripPlaceFieldRefs {
     readonly id: FieldRef<"TripPlace", 'String'>
     readonly day: FieldRef<"TripPlace", 'Int'>
+    readonly time: FieldRef<"TripPlace", 'String'>
     readonly name: FieldRef<"TripPlace", 'String'>
     readonly purpose: FieldRef<"TripPlace", 'String'>
     readonly notes: FieldRef<"TripPlace", 'String'>
@@ -2055,46 +2083,64 @@ export namespace Prisma {
 
   export type SuggestionMinAggregateOutputType = {
     id: string | null
+    userId: string | null
+    title: string | null
     text: string | null
-    isReviewed: boolean | null
+    status: $Enums.SuggestionStatus | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SuggestionMaxAggregateOutputType = {
     id: string | null
+    userId: string | null
+    title: string | null
     text: string | null
-    isReviewed: boolean | null
+    status: $Enums.SuggestionStatus | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SuggestionCountAggregateOutputType = {
     id: number
+    userId: number
+    title: number
     text: number
-    isReviewed: number
+    status: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type SuggestionMinAggregateInputType = {
     id?: true
+    userId?: true
+    title?: true
     text?: true
-    isReviewed?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type SuggestionMaxAggregateInputType = {
     id?: true
+    userId?: true
+    title?: true
     text?: true
-    isReviewed?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type SuggestionCountAggregateInputType = {
     id?: true
+    userId?: true
+    title?: true
     text?: true
-    isReviewed?: true
+    status?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -2172,9 +2218,12 @@ export namespace Prisma {
 
   export type SuggestionGroupByOutputType = {
     id: string
+    userId: string
+    title: string
     text: string
-    isReviewed: boolean
+    status: $Enums.SuggestionStatus
     createdAt: Date
+    updatedAt: Date
     _count: SuggestionCountAggregateOutputType | null
     _min: SuggestionMinAggregateOutputType | null
     _max: SuggestionMaxAggregateOutputType | null
@@ -2196,42 +2245,57 @@ export namespace Prisma {
 
   export type SuggestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    title?: boolean
     text?: boolean
-    isReviewed?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    title?: boolean
     text?: boolean
-    isReviewed?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    title?: boolean
     text?: boolean
-    isReviewed?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["suggestion"]>
 
   export type SuggestionSelectScalar = {
     id?: boolean
+    userId?: boolean
+    title?: boolean
     text?: boolean
-    isReviewed?: boolean
+    status?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type SuggestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "text" | "isReviewed" | "createdAt", ExtArgs["result"]["suggestion"]>
+  export type SuggestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "text" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["suggestion"]>
 
   export type $SuggestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Suggestion"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: string
+      title: string
       text: string
-      isReviewed: boolean
+      status: $Enums.SuggestionStatus
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["suggestion"]>
     composites: {}
   }
@@ -2656,9 +2720,12 @@ export namespace Prisma {
    */
   interface SuggestionFieldRefs {
     readonly id: FieldRef<"Suggestion", 'String'>
+    readonly userId: FieldRef<"Suggestion", 'String'>
+    readonly title: FieldRef<"Suggestion", 'String'>
     readonly text: FieldRef<"Suggestion", 'String'>
-    readonly isReviewed: FieldRef<"Suggestion", 'Boolean'>
+    readonly status: FieldRef<"Suggestion", 'SuggestionStatus'>
     readonly createdAt: FieldRef<"Suggestion", 'DateTime'>
+    readonly updatedAt: FieldRef<"Suggestion", 'DateTime'>
   }
     
 
@@ -3042,6 +3109,7 @@ export namespace Prisma {
   export const TripPlaceScalarFieldEnum: {
     id: 'id',
     day: 'day',
+    time: 'time',
     name: 'name',
     purpose: 'purpose',
     notes: 'notes',
@@ -3056,9 +3124,12 @@ export namespace Prisma {
 
   export const SuggestionScalarFieldEnum: {
     id: 'id',
+    userId: 'userId',
+    title: 'title',
     text: 'text',
-    isReviewed: 'isReviewed',
-    createdAt: 'createdAt'
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type SuggestionScalarFieldEnum = (typeof SuggestionScalarFieldEnum)[keyof typeof SuggestionScalarFieldEnum]
@@ -3150,9 +3221,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'SuggestionStatus'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type EnumSuggestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SuggestionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SuggestionStatus[]'
+   */
+  export type ListEnumSuggestionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SuggestionStatus[]'>
     
   /**
    * Deep Input Types
@@ -3165,6 +3243,7 @@ export namespace Prisma {
     NOT?: TripPlaceWhereInput | TripPlaceWhereInput[]
     id?: StringFilter<"TripPlace"> | string
     day?: IntFilter<"TripPlace"> | number
+    time?: StringFilter<"TripPlace"> | string
     name?: StringFilter<"TripPlace"> | string
     purpose?: StringFilter<"TripPlace"> | string
     notes?: StringNullableFilter<"TripPlace"> | string | null
@@ -3177,6 +3256,7 @@ export namespace Prisma {
   export type TripPlaceOrderByWithRelationInput = {
     id?: SortOrder
     day?: SortOrder
+    time?: SortOrder
     name?: SortOrder
     purpose?: SortOrder
     notes?: SortOrderInput | SortOrder
@@ -3192,6 +3272,7 @@ export namespace Prisma {
     OR?: TripPlaceWhereInput[]
     NOT?: TripPlaceWhereInput | TripPlaceWhereInput[]
     day?: IntFilter<"TripPlace"> | number
+    time?: StringFilter<"TripPlace"> | string
     name?: StringFilter<"TripPlace"> | string
     purpose?: StringFilter<"TripPlace"> | string
     notes?: StringNullableFilter<"TripPlace"> | string | null
@@ -3204,6 +3285,7 @@ export namespace Prisma {
   export type TripPlaceOrderByWithAggregationInput = {
     id?: SortOrder
     day?: SortOrder
+    time?: SortOrder
     name?: SortOrder
     purpose?: SortOrder
     notes?: SortOrderInput | SortOrder
@@ -3224,6 +3306,7 @@ export namespace Prisma {
     NOT?: TripPlaceScalarWhereWithAggregatesInput | TripPlaceScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"TripPlace"> | string
     day?: IntWithAggregatesFilter<"TripPlace"> | number
+    time?: StringWithAggregatesFilter<"TripPlace"> | string
     name?: StringWithAggregatesFilter<"TripPlace"> | string
     purpose?: StringWithAggregatesFilter<"TripPlace"> | string
     notes?: StringNullableWithAggregatesFilter<"TripPlace"> | string | null
@@ -3238,16 +3321,22 @@ export namespace Prisma {
     OR?: SuggestionWhereInput[]
     NOT?: SuggestionWhereInput | SuggestionWhereInput[]
     id?: StringFilter<"Suggestion"> | string
+    userId?: StringFilter<"Suggestion"> | string
+    title?: StringFilter<"Suggestion"> | string
     text?: StringFilter<"Suggestion"> | string
-    isReviewed?: BoolFilter<"Suggestion"> | boolean
+    status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
     createdAt?: DateTimeFilter<"Suggestion"> | Date | string
+    updatedAt?: DateTimeFilter<"Suggestion"> | Date | string
   }
 
   export type SuggestionOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
     text?: SortOrder
-    isReviewed?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SuggestionWhereUniqueInput = Prisma.AtLeast<{
@@ -3255,16 +3344,22 @@ export namespace Prisma {
     AND?: SuggestionWhereInput | SuggestionWhereInput[]
     OR?: SuggestionWhereInput[]
     NOT?: SuggestionWhereInput | SuggestionWhereInput[]
+    userId?: StringFilter<"Suggestion"> | string
+    title?: StringFilter<"Suggestion"> | string
     text?: StringFilter<"Suggestion"> | string
-    isReviewed?: BoolFilter<"Suggestion"> | boolean
+    status?: EnumSuggestionStatusFilter<"Suggestion"> | $Enums.SuggestionStatus
     createdAt?: DateTimeFilter<"Suggestion"> | Date | string
+    updatedAt?: DateTimeFilter<"Suggestion"> | Date | string
   }, "id">
 
   export type SuggestionOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
     text?: SortOrder
-    isReviewed?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: SuggestionCountOrderByAggregateInput
     _max?: SuggestionMaxOrderByAggregateInput
     _min?: SuggestionMinOrderByAggregateInput
@@ -3275,14 +3370,18 @@ export namespace Prisma {
     OR?: SuggestionScalarWhereWithAggregatesInput[]
     NOT?: SuggestionScalarWhereWithAggregatesInput | SuggestionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Suggestion"> | string
+    userId?: StringWithAggregatesFilter<"Suggestion"> | string
+    title?: StringWithAggregatesFilter<"Suggestion"> | string
     text?: StringWithAggregatesFilter<"Suggestion"> | string
-    isReviewed?: BoolWithAggregatesFilter<"Suggestion"> | boolean
+    status?: EnumSuggestionStatusWithAggregatesFilter<"Suggestion"> | $Enums.SuggestionStatus
     createdAt?: DateTimeWithAggregatesFilter<"Suggestion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Suggestion"> | Date | string
   }
 
   export type TripPlaceCreateInput = {
     id?: string
     day?: number
+    time: string
     name: string
     purpose: string
     notes?: string | null
@@ -3295,6 +3394,7 @@ export namespace Prisma {
   export type TripPlaceUncheckedCreateInput = {
     id?: string
     day?: number
+    time: string
     name: string
     purpose: string
     notes?: string | null
@@ -3307,6 +3407,7 @@ export namespace Prisma {
   export type TripPlaceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     day?: IntFieldUpdateOperationsInput | number
+    time?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3319,6 +3420,7 @@ export namespace Prisma {
   export type TripPlaceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     day?: IntFieldUpdateOperationsInput | number
+    time?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3331,6 +3433,7 @@ export namespace Prisma {
   export type TripPlaceCreateManyInput = {
     id?: string
     day?: number
+    time: string
     name: string
     purpose: string
     notes?: string | null
@@ -3343,6 +3446,7 @@ export namespace Prisma {
   export type TripPlaceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     day?: IntFieldUpdateOperationsInput | number
+    time?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3355,6 +3459,7 @@ export namespace Prisma {
   export type TripPlaceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     day?: IntFieldUpdateOperationsInput | number
+    time?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     purpose?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
@@ -3366,51 +3471,72 @@ export namespace Prisma {
 
   export type SuggestionCreateInput = {
     id?: string
+    userId: string
+    title: string
     text: string
-    isReviewed?: boolean
+    status?: $Enums.SuggestionStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SuggestionUncheckedCreateInput = {
     id?: string
+    userId: string
+    title: string
     text: string
-    isReviewed?: boolean
+    status?: $Enums.SuggestionStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SuggestionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    isReviewed?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SuggestionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    isReviewed?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SuggestionCreateManyInput = {
     id?: string
+    userId: string
+    title: string
     text: string
-    isReviewed?: boolean
+    status?: $Enums.SuggestionStatus
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SuggestionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    isReviewed?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SuggestionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
-    isReviewed?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumSuggestionStatusFieldUpdateOperationsInput | $Enums.SuggestionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -3484,6 +3610,7 @@ export namespace Prisma {
   export type TripPlaceCountOrderByAggregateInput = {
     id?: SortOrder
     day?: SortOrder
+    time?: SortOrder
     name?: SortOrder
     purpose?: SortOrder
     notes?: SortOrder
@@ -3502,6 +3629,7 @@ export namespace Prisma {
   export type TripPlaceMaxOrderByAggregateInput = {
     id?: SortOrder
     day?: SortOrder
+    time?: SortOrder
     name?: SortOrder
     purpose?: SortOrder
     notes?: SortOrder
@@ -3514,6 +3642,7 @@ export namespace Prisma {
   export type TripPlaceMinOrderByAggregateInput = {
     id?: SortOrder
     day?: SortOrder
+    time?: SortOrder
     name?: SortOrder
     purpose?: SortOrder
     notes?: SortOrder
@@ -3611,38 +3740,51 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type EnumSuggestionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SuggestionStatus | EnumSuggestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSuggestionStatusFilter<$PrismaModel> | $Enums.SuggestionStatus
   }
 
   export type SuggestionCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
     text?: SortOrder
-    isReviewed?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SuggestionMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
     text?: SortOrder
-    isReviewed?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SuggestionMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+    title?: SortOrder
     text?: SortOrder
-    isReviewed?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type EnumSuggestionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SuggestionStatus | EnumSuggestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSuggestionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SuggestionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumSuggestionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSuggestionStatusFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3673,8 +3815,8 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
+  export type EnumSuggestionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SuggestionStatus
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -3829,17 +3971,21 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type NestedEnumSuggestionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SuggestionStatus | EnumSuggestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSuggestionStatusFilter<$PrismaModel> | $Enums.SuggestionStatus
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  export type NestedEnumSuggestionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SuggestionStatus | EnumSuggestionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SuggestionStatus[] | ListEnumSuggestionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSuggestionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SuggestionStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _min?: NestedEnumSuggestionStatusFilter<$PrismaModel>
+    _max?: NestedEnumSuggestionStatusFilter<$PrismaModel>
   }
 
 
