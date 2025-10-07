@@ -1,25 +1,44 @@
 import { NextApiRequest } from 'next';
 
-/**
- * Checks for a valid admin secret key in the request headers.
- * This key must match the ADMIN_SECRET_KEY set in your environment variables.
- * @param req - The incoming NextApiRequest.
- * @returns True if the secret key matches, false otherwise.
- */
-export function isAdminAuthorized(req: NextApiRequest): boolean {
-    // We expect the admin secret to be passed in a dedicated header, 
-    // e.g., 'x-admin-secret'.
-    const secretFromHeader = req.headers['x-admin-secret'];
-    const adminSecretKey = process.env.ADMIN_SECRET_KEY;
+// --- Note: This function checks for a specific role key but is not yet fully utilized in the current API routes. ---
+export function isAuthorized(req: NextApiRequest, requiredRole: 'admin' | 'trusted'): boolean {
+    const secretFromHeader = req.headers['x-auth-secret'];
+    
+    let requiredKey: string | undefined;
 
-    // Critical check: Ensure the environment variable is set
-    if (!adminSecretKey) {
-        console.error("ADMIN_SECRET_KEY environment variable is not set!");
-        // In production, you might return false here for security, 
-        // but for development, we return false unless the secret is provided.
+    if (requiredRole === 'admin') {
+        requiredKey = process.env.ADMIN_SECRET_KEY;
+    } else if (requiredRole === 'trusted') {
+        requiredKey = process.env.TRUSTED_USER_KEY;
+    }
+    
+    // Check if the required environment variable is actually set
+    if (!requiredKey) {
+        console.error(`${requiredRole.toUpperCase()}_SECRET_KEY environment variable is not set!`);
         return false; 
     }
 
-    // Compare the header value against the environment variable
-    return secretFromHeader === adminSecretKey;
+    // Compare the header value against the required key
+    return secretFromHeader === requiredKey;
+}
+
+/**
+ * Checks if the request header contains EITHER the Admin Key or the Trusted User Key.
+ * This is the primary function to protect all administrative/privileged endpoints.
+ * All API routes that handle modification (POST, PUT, DELETE, PATCH) should use this.
+ */
+export function isAdminOrTrustedAuthorized(req: NextApiRequest): boolean {
+    const secretFromHeader = req.headers['x-auth-secret'];
+    const adminKey = process.env.ADMIN_SECRET_KEY;
+    const trustedKey = process.env.TRUSTED_USER_KEY;
+    
+    // Security check: Must have a header value and EITHER key must match
+    if (!secretFromHeader) return false;
+
+    const isAdmin = secretFromHeader === adminKey;
+    const isTrusted = secretFromHeader === trustedKey;
+    
+    // For now, allow both to pass the access gate, but you can later use isAuthorized
+    // for endpoints only the admin should access (like deleting records).
+    return isAdmin || isTrusted;
 }

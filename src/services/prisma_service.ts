@@ -22,7 +22,7 @@ export interface CreateSuggestionData {
     text: string;
 }
 
-/** Data required for creating a new TripPlace (Admin function) */
+/** Data required for creating a new TripPlace */
 export interface CreateTripPlaceData {
     day: number;
     time: string;
@@ -33,25 +33,26 @@ export interface CreateTripPlaceData {
     longitude: number;
 }
 
-/** Data required for updating an existing TripPlace (Admin function) */
+/** Data required for updating an existing TripPlace */
 export type UpdateTripPlaceData = Partial<Omit<CreateTripPlaceData, 'day'>> & { day?: number };
 
-// --- TRIPPLACE CRUD (ADMIN ITINERARY MANAGEMENT) ---
+
+// --- 3. TRIPPLACE CRUD (Itinerary Management) ---
 
 /**
  * Fetches the official trip itinerary places (Read).
- * This is used for both public viewing (filtered) and admin viewing (all).
  * @param day - Optional day number to filter.
  */
 export async function getTripPlaces(day?: number): Promise<TripPlace[]> {
-  const whereClause = day ? { day: day } : {};
+    const whereClause = day ? { day: day } : {};
 
-  return prisma.tripPlace.findMany({
-    where: whereClause,
-    orderBy: {
-      time: 'asc',
-    },
-  });
+    return prisma.tripPlace.findMany({
+        where: whereClause,
+        orderBy: {
+            // Sorting by time ensures the day's events are sequential
+            time: 'asc',
+        },
+    });
 }
 
 /**
@@ -81,10 +82,10 @@ export async function deleteTripPlace(id: string): Promise<TripPlace> {
 }
 
 
-// --- SUGGESTION CRUD (USER SUBMISSION & ADMIN INBOX) ---
+// --- 4. SUGGESTION CRUD (User Submission & Inbox Management) ---
 
 /**
- * Creates a new user suggestion (Create).
+ * Creates a new user suggestion (Create). Status is defaulted to PENDING.
  */
 export async function createSuggestion(data: CreateSuggestionData): Promise<Suggestion> {
     return prisma.suggestion.create({
@@ -99,14 +100,14 @@ export async function createSuggestion(data: CreateSuggestionData): Promise<Sugg
 
 /**
  * Fetches all user suggestions (Read - Admin Inbox).
- * Can filter by status (Pending, Approved, Rejected).
+ * @param status - Optional status to filter by (PENDING, APPROVED, REJECTED).
  */
 export async function getSuggestions(status?: SuggestionStatus): Promise<Suggestion[]> {
     const whereClause = status ? { status } : {};
     return prisma.suggestion.findMany({
         where: whereClause,
         orderBy: {
-            createdAt: 'desc',
+            createdAt: 'desc', // Show newest suggestions first
         },
     });
 }
@@ -121,5 +122,6 @@ export async function updateSuggestionStatus(id: string, newStatus: SuggestionSt
     });
 }
 
-// Export the prisma client instance
+// Export the prisma client instance for direct use if needed
 export default prisma;
+
