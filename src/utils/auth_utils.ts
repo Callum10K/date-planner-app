@@ -7,9 +7,9 @@ export function isAuthorized(req: NextApiRequest, requiredRole: 'admin' | 'trust
     let requiredKey: string | undefined;
 
     if (requiredRole === 'admin') {
-        requiredKey = process.env.ADMIN_SECRET_KEY;
+        requiredKey = process.env.NEXT_PUBLIC_ADMIN_SECRET;
     } else if (requiredRole === 'trusted') {
-        requiredKey = process.env.TRUSTED_USER_KEY;
+        requiredKey = process.env.NEXT_PUBLIC_TRUSTED_SECRET;
     }
     
     // Check if the required environment variable is actually set

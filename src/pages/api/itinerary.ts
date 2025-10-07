@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         } else if (req.method === 'POST') {
             // --- CREATE (Trusted Protected) ---
             // This action is privileged but shared between Admin and Trusted User.
-            if (!isAdminOrTrustedAuthorized(req)) {
+            if (!isAuthorized(req, 'admin')) {
                 return res.status(403).json({ error: 'Forbidden: Authentication required to create new itinerary places.' });
             }
 

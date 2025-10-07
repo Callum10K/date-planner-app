@@ -349,14 +349,14 @@ const SuggestionForm: React.FC<{ refreshSuggestions: () => void, authSecret: str
                 body: JSON.stringify(payload)
             }, true); // Requires authSecret but doesn't check role
 
-            setMessage({ text: 'Suggestion sent! I hope he sees it soon! ❤️', color: 'text-green-600' });
+            setMessage({ text: '建议已成功发送！嘻嘻 ❤️', color: 'text-green-600' });
             setTitle('');
             setText('');
             refreshSuggestions(); 
 
         } catch (error: any) {
             console.error("Submission failed:", error);
-            setMessage({ text: error.message || 'Submission failed. Please try again.', color: 'text-red-600' });
+            setMessage({ text: error.message || '提交失败。请再试一次。😭😭', color: 'text-red-600' });
         } finally {
             setLoading(false);
         }
@@ -366,14 +366,14 @@ const SuggestionForm: React.FC<{ refreshSuggestions: () => void, authSecret: str
         <div className="p-4 border-t border-gray-100 bg-[#f7e6f8] rounded-b-xl">
             <h2 className="text-lg font-bold text-[#6a329f] mb-3 flex items-center">
                 <Heart className="w-5 h-5 mr-2 text-[#e3a1e9]" />
-                Submit a Wild Suggestion
+                提交你最疯狂的建议 😳😳
             </h2>
             <form onSubmit={handleSubmit} className="space-y-3">
                 <input 
                     type="text" 
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Suggestion Title (e.g., Cat Café)" 
+                    placeholder="建议标题（例如：猫咖啡馆）" 
                     required 
                     className="w-full p-2 border border-[#e3a1e9] rounded-lg focus:ring-2 focus:ring-[#6a329f] focus:border-transparent transition"
                     disabled={loading}
@@ -382,7 +382,7 @@ const SuggestionForm: React.FC<{ refreshSuggestions: () => void, authSecret: str
                     rows={2} 
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    placeholder="Tell him why we MUST go here!" 
+                    placeholder="我一定要去这里的理由！" 
                     required 
                     className="w-full p-2 border border-[#e3a1e9] rounded-lg focus:ring-2 focus:ring-[#6a329f] focus:border-transparent transition"
                     disabled={loading}
@@ -392,7 +392,7 @@ const SuggestionForm: React.FC<{ refreshSuggestions: () => void, authSecret: str
                     className={`w-full font-bold py-2 rounded-lg shadow-md transition transform ${loading ? 'bg-gray-400' : 'bg-[#e3a1e9] text-[#2a2a2a] hover:bg-[#ffc1ff] hover:scale-[1.01]'}`}
                     disabled={loading}
                 >
-                    {loading ? 'Sending...' : 'Send It to the Inbox'}
+                    {loading ? '发送中...' : '发送到信箱 💌'}
                 </button>
             </form>
             {message && (
@@ -745,7 +745,7 @@ const AdminPanel: React.FC<{ refreshItinerary: () => void, refreshSuggestions: (
                     onClick={() => setActiveTab('inbox')}
                     className={`flex items-center px-4 py-2 font-semibold transition ${activeTab === 'inbox' ? 'border-b-4 border-[#e3a1e9] text-[#2a2a2a]' : 'text-gray-500 hover:text-[#6a329f]'}`}
                 >
-                    <Inbox className="w-5 h-5 mr-2" /> Suggestions Inbox
+                    <Inbox className="w-5 h-5 mr-2" /> Suggestion Inbox
                 </button>
             </div>
 
@@ -815,7 +815,7 @@ const MainItineraryView: React.FC<MainItineraryViewProps> = ({ role, itinerary, 
     return (
         <div className="p-4 sm:p-6 bg-white min-h-[calc(100vh-64px)] rounded-b-3xl shadow-xl border-t-4 border-[#e3a1e9]/50">
             <h1 className="text-3xl font-extrabold text-[#6a329f] text-center mb-6 border-b-2 border-[#e3a1e9]/50 pb-2">
-                Kuromi's Grand 4-Day Trip 💜
+                我们的四天之旅 💜
             </h1>
 
             {/* Day Selector Tabs */}
@@ -854,7 +854,7 @@ const MainItineraryView: React.FC<MainItineraryViewProps> = ({ role, itinerary, 
                         className="w-full flex items-center justify-center p-4 text-lg font-bold text-[#6a329f] hover:bg-[#f7e6f8] rounded-t-xl transition"
                     >
                         <Rabbit className={`w-5 h-5 mr-3 transition transform ${showSuggestionForm ? 'rotate-90' : ''}`} />
-                        {showSuggestionForm ? 'Hide Suggestion Box' : 'Got an idea? Submit a Suggestion!'}
+                        {showSuggestionForm ? '隐藏意见箱' : 'babbyyy～有什么想去的地方吗？💗 (点这里嘿嘿)'}
                     </button>
                     {showSuggestionForm && (
                         <SuggestionForm authSecret={authSecret} refreshSuggestions={handleRefreshSuggestions} />
@@ -932,18 +932,23 @@ const App: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#f7e6f8] font-sans">
             <TailwindScript />
-            {/* Header */}
             <header className="bg-white shadow-lg sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-                    <div className="flex items-center space-x-2">
-                        <Rabbit className="w-6 h-6 text-[#6a329f]" />
-                        <span className="text-xl font-extrabold text-[#2a2a2a] hidden sm:block">Kuromi Trip Planner</span>
+                    <div className="flex items-center">
+                        <img 
+                            src="kuromi-avatar-login-1.png" 
+                            alt="Kuromi Avatar" 
+                            className="w-20 h-20 mr-5 rounded-full border-2 border-purple-500 shadow-md object-cover"
+                        />
+                        <h1 className="text-xl font-extrabold text-gray-900 tracking-tight">
+                            行程策划🚗💨
+                        </h1>
                     </div>
                     <div className="flex items-center space-x-4">
                         <span className={`text-sm font-semibold px-3 py-1 rounded-full shadow-inner ${
                             role === 'admin' ? 'bg-[#6a329f] text-white' : role === 'trusted' ? 'bg-[#e3a1e9] text-[#2a2a2a]' : 'bg-gray-200 text-gray-700'
                         }`}>
-                            Role: {role.toUpperCase()}
+                            {role === 'admin' ? 'BF' : role === 'trusted' ? 'BAE 💗' : role.toUpperCase()}
                         </span>
                         {(role === 'admin' || role === 'trusted') && (
                             <button 
