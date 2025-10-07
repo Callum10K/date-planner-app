@@ -44,3 +44,5 @@ next-env.d.ts
 /hello-prisma/node_modules
 /hello-prisma/node_modules
 /hello-prisma/node_modules
+
+.vercel

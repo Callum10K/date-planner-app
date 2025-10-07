@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postinstall": "prisma generate --no-engine",
+    "postinstall": "prisma generate --schema=./hello-prisma/prisma/schema.prisma --no-engine",
     "start": "next start"
   },
   "dependencies": {
