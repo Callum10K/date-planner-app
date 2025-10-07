@@ -179,6 +179,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -189,7 +190,7 @@ const config = {
   },
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../app/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum SuggestionStatus {\n  Pending\n  Approved\n  Rejected\n}\n\nmodel TripPlace {\n  id String @id @default(cuid())\n\n  day  Int    @default(1)\n  time String // Time slot for the activity (e.g., \"10:00 AM\", \"Evening\")\n\n  name    String\n  purpose String\n  notes   String?\n\n  latitude  Float\n  longitude Float\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([day])\n  @@map(\"trip_places\")\n}\n\nmodel Suggestion {\n  id String @id @default(cuid())\n\n  userId String // Identifier from the authentication system\n  title  String // Title/Name of the suggested location\n  text   String\n\n  status SuggestionStatus @default(Pending)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  @@index([status])\n  @@map(\"suggestions\")\n}\n",
   "inlineSchemaHash": "2f81af625878810dd93308213d272150fb424a6b3f15c98ceadfce38a3b2ccdc",
-  "copyEngine": false
+  "copyEngine": true
 }
 
 const fs = require('fs')
@@ -226,3 +227,9 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
+// file annotations for bundling tools to include these files
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "app/generated/prisma/query_engine-windows.dll.node")
+// file annotations for bundling tools to include these files
+path.join(__dirname, "schema.prisma");
+path.join(process.cwd(), "app/generated/prisma/schema.prisma")
