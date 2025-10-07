@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/**
+ * Model for the main trip itinerary.
+ * This will be managed (CRUD) via the Admin Dashboard.
+ */
+model TripPlace {
+  id String @id @default(cuid())
+
+  // Day of the trip (used for filtering the map view on days 1, 2, 3, or 4)
+  day Int @default(1)
+
+  // Details of the location
+  name    String
+  purpose String // e.g., "Dinner reservation", "Sightseeing", "Shopping"
+  notes   String? // Optional additional details or directions
+
+  // Coordinates for mapping and Google Maps integration
+  latitude  Float // The North/South coordinate for the pin
+  longitude Float // The East/West coordinate for the pin
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([day]) // Indexing by day makes filtering very fast
+}
+
+/**
+ * Model for user suggestions (the 'Inbox' viewable by the Admin).
+ */
+model Suggestion {
+  id String @id @default(cuid())
+
+  // The suggestion content
+  text String
+
+  // Admin-only flag to track if the suggestion has been seen/processed
+  isReviewed Boolean @default(false)
+
+  // Timestamp of when the suggestion was submitted
+  createdAt DateTime @default(now())
+}
