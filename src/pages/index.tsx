@@ -3,12 +3,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { MapPin, Rabbit, Loader2, ListOrdered, Inbox, PlusCircle, Trash2, Edit, LogIn, Heart } from 'lucide-react';
 
-// Load Tailwind CSS for styling
-// Note: In a real Next.js environment, this would be handled via setup.
-// We include the Tailwind CDN script for standalone runnable demo purposes.
-const TailwindScript = () => (
-    <script src="https://cdn.tailwindcss.com"></script>
-);
 
 // --- 1. Constants and Type Definitions ---
 
@@ -931,7 +925,6 @@ const App: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[#f7e6f8] font-sans">
-            <TailwindScript />
             <header className="bg-white shadow-lg sticky top-0 z-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
                     <div className="flex items-center">
