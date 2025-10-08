@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Suggestion, SuggestionStatus } from '@prisma/client';
+import { Suggestion, SuggestionStatus } from '../../../../app/generated/prisma';
 import { updateSuggestionStatus } from '../../../services/prisma_service';
 import { 
     isAdminOrTrustedAuthorized 

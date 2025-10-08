@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { TripPlace } from '@prisma/client';
+import { TripPlace } from '../../../app/generated/prisma';
 import { 
     getTripPlaces, 
     createTripPlace, 
