@@ -1,4 +1,4 @@
-import { PrismaClient, TripPlace, Suggestion, SuggestionStatus } from '@prisma/client';
+import { PrismaClient, TripPlace, Suggestion, SuggestionStatus } from '../../app/generated/prisma';
 
 // Prisma is exported as a module to handle connection pooling efficiently
 // in a serverless environment like Vercel.
