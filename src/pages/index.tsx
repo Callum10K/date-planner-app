@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { MapPin, Rabbit, Loader2, ListOrdered, Inbox, PlusCircle, Trash2, Edit, LogIn, Heart } from 'lucide-react';
 
